@@ -266,6 +266,8 @@ class Field extends \acf_field
 
         if (! empty($value) && is_string($value)) {
             $value = $this->palette($value, $field['custom_colors'] ?? []);
+        } elseif (! empty($value['slug']) && is_array($color = $this->palette($value['slug'], $field['custom_colors'] ?? []))) {
+            $value = $color;
         }
 
         return $format === 'array' ? $value : ($value[$format] ?? $value);

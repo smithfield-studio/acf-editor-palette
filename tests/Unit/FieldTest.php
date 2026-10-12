@@ -24,6 +24,20 @@ it('formats a custom color value', function () {
         ->toBe('#ff00ff');
 });
 
+it('formats a saved color with the current custom color', function () {
+    $saved = ['name' => 'Magenta', 'slug' => 'magenta', 'color' => '#cc00cc'];
+
+    expect(field()->format_value($saved, 1, array_merge($this->field, ['return_format' => 'color'])))
+        ->toBe('#ff00ff');
+});
+
+it('formats a saved color that is no longer in the palette', function () {
+    $saved = ['name' => 'Orange', 'slug' => 'orange', 'color' => '#ff6600'];
+
+    expect(field()->format_value($saved, 1, array_merge($this->field, ['return_format' => 'color'])))
+        ->toBe('#ff6600');
+});
+
 it('validates against the custom colors', function () {
     expect(field()->validate_value(true, 'magenta', $this->field, ''))->toBeTrue();
 
