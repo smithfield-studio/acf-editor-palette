@@ -61,6 +61,11 @@ it('sanitizes the custom color slug', function () {
         ->toBe([['name' => 'Magenta', 'slug' => 'hot-pink', 'color' => '#ff00ff']]);
 });
 
+it('sanitizes the custom color name and color', function () {
+    expect(field()->customPalette([['name' => '<b>Magenta</b>', 'color' => ' #ff00ff ']]))
+        ->toBe([['name' => 'Magenta', 'slug' => 'magenta', 'color' => '#ff00ff']]);
+});
+
 it('skips invalid custom colors', function () {
     $palette = field()->customPalette([
         ['name' => 'Magenta', 'color' => '#ff00ff'],

@@ -65,6 +65,18 @@ it('renders the custom colors', function () {
         ->not->toContain('value="green"');
 });
 
+it('escapes the custom colors when rendering', function () {
+    $field = array_merge($this->field, ['custom_colors' => [
+        ['name' => 'Bad" onmouseover="alert(1)', 'slug' => 'bad', 'color' => '#000" onclick="alert(1)'],
+    ]]);
+
+    ob_start();
+    field()->render_field($field);
+    $html = ob_get_clean();
+
+    expect($html)->not->toContain('" onmouseover=', '" onclick=');
+});
+
 it('filters the custom colors', function () {
     ob_start();
     field()->render_field(array_merge($this->field, ['exclude_colors' => ['cyan']]));

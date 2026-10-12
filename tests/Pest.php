@@ -105,6 +105,16 @@ function checked($checked, $current = true, $display = true)
     return (string) $checked === (string) $current ? " checked='checked'" : '';
 }
 
+function esc_attr($text)
+{
+    return htmlspecialchars((string) $text, ENT_QUOTES);
+}
+
+function sanitize_text_field($text)
+{
+    return trim(strip_tags((string) $text));
+}
+
 function __($text, $domain = 'default')
 {
     return $text;

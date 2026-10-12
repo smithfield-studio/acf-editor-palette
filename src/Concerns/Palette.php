@@ -82,10 +82,12 @@ trait Palette
                 continue;
             }
 
+            $name = sanitize_text_field($value['name']);
+
             $palette[] = [
-                'name' => $value['name'],
-                'slug' => sanitize_title(! empty($value['slug']) ? $value['slug'] : $value['name']),
-                'color' => $value['color'],
+                'name' => $name,
+                'slug' => sanitize_title(! empty($value['slug']) ? $value['slug'] : $name),
+                'color' => sanitize_text_field($value['color']),
             ];
         }
 

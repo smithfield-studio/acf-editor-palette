@@ -80,19 +80,19 @@ class Field extends \acf_field
 
         echo sprintf(
             '<input type="hidden" id="%s" name="%s" value="">',
-            $field['id'],
-            $field['name']
+            esc_attr($field['id']),
+            esc_attr($field['name'])
         );
 
-        echo sprintf('<div class="%s components-circular-option-picker">', $field['class']);
+        echo sprintf('<div class="%s components-circular-option-picker">', esc_attr($field['class']));
 
         echo '<ul class="components-circular-option-picker__swatches">';
 
         echo sprintf(
             '<input class="empty-value" type="radio" id="%s-%s" name="%s" value="%s" %s>',
-            $field['id'],
+            esc_attr($field['id']),
             'empty',
-            $field['name'],
+            esc_attr($field['name']),
             null,
             checked(null, $active, false)
         );
@@ -102,10 +102,10 @@ class Field extends \acf_field
 
             echo sprintf(
                 '<input type="radio" id="%s-%s" name="%s" value="%s" %s>',
-                $field['id'],
-                $color['slug'],
-                $field['name'],
-                $color['slug'],
+                esc_attr($field['id']),
+                esc_attr($color['slug']),
+                esc_attr($field['name']),
+                esc_attr($color['slug']),
                 checked($color['slug'], $active, false)
             );
 
@@ -118,13 +118,13 @@ class Field extends \acf_field
                     style="background-color: %s; color: %s;"
                     data-color="%s",
                 ></label>',
-                $field['id'],
-                $color['slug'],
-                $color['name'],
-                $color['name'],
-                $color['color'],
-                $color['color'],
-                $color['color']
+                esc_attr($field['id']),
+                esc_attr($color['slug']),
+                esc_attr($color['name']),
+                esc_attr($color['name']),
+                esc_attr($color['color']),
+                esc_attr($color['color']),
+                esc_attr($color['color'])
             );
 
             echo '</li>';
