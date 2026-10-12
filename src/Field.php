@@ -154,7 +154,7 @@ class Field extends \acf_field
         acf_render_field_setting($field, [
             'label' => __('Custom Colors', 'acf-editor-palette'),
             'name' => 'custom_colors',
-            'instructions' => __('Replace the theme palette with custom colors.', 'acf-editor-palette'),
+            'instructions' => __('Replace the theme palette with custom colors. Slugs are generated from the name when left empty.', 'acf-editor-palette'),
             'type' => 'repeater',
             'layout' => 'table',
             'button_label' => __('Add Color', 'acf-editor-palette'),
@@ -173,7 +173,7 @@ class Field extends \acf_field
                     'key' => 'slug',
                     'type' => 'text',
                     'wrapper' => ['width' => 30],
-                    'placeholder' => __('Generated from the name', 'acf-editor-palette'),
+                    'placeholder' => __('Optional', 'acf-editor-palette'),
                 ],
                 [
                     'label' => __('Color', 'acf-editor-palette'),
