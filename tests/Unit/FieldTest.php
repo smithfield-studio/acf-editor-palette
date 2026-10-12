@@ -69,6 +69,28 @@ it('normalizes the custom colors repeater when saving the field', function () {
     ]);
 });
 
+it('drops allowed, excluded and default colors missing from the palette when saving the field', function () {
+    $field = field()->update_field([
+        'custom_colors' => [['name' => 'Magenta', 'color' => '#ff00ff'], ['name' => 'Cyan', 'color' => '#00ffff']],
+        'allowed_colors' => ['green', 'magenta'],
+        'exclude_colors' => ['green', 'cyan'],
+        'default_value' => 'green',
+    ]);
+
+    expect($field)
+        ->allowed_colors->toBe(['magenta'])
+        ->exclude_colors->toBe(['cyan'])
+        ->default_value->toBeNull();
+});
+
+it('keeps the field settings when there is no palette', function () {
+    $GLOBALS['theme_support'] = [];
+
+    $field = field()->update_field(['custom_colors' => [], 'allowed_colors' => ['green'], 'default_value' => 'green']);
+
+    expect($field)->allowed_colors->toBe(['green'])->default_value->toBe('green');
+});
+
 it('renders the custom colors', function () {
     ob_start();
     field()->render_field($this->field);

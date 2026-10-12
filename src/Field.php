@@ -325,6 +325,20 @@ class Field extends \acf_field
     {
         $field['custom_colors'] = $this->customPalette($field['custom_colors'] ?? []);
 
+        if (empty($colors = $this->palette(null, $field['custom_colors']))) {
+            return $field;
+        }
+
+        foreach (['allowed_colors', 'exclude_colors'] as $key) {
+            if (! empty($field[$key]) && is_array($field[$key])) {
+                $field[$key] = array_values(array_intersect($field[$key], array_keys($colors)));
+            }
+        }
+
+        if (! empty($field['default_value']) && is_string($field['default_value']) && ! isset($colors[$field['default_value']])) {
+            $field['default_value'] = null;
+        }
+
         return $field;
     }
 
