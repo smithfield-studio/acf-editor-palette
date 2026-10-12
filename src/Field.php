@@ -204,10 +204,9 @@ class Field extends \acf_field
             'name' => 'default_value',
             'instructions' => __('The default color value.', 'acf-editor-palette'),
             'type' => 'select',
-            'ui' => '1',
             'default_value' => null,
             'allow_null' => true,
-            'placeholder' => __('Select a default color (optional)', 'acf-editor-palette'),
+            'placeholder' => __('None', 'acf-editor-palette'),
             'choices' => $colors,
         ]);
 
@@ -220,7 +219,7 @@ class Field extends \acf_field
             'default_value' => null,
             'allow_null' => true,
             'multiple' => true,
-            'placeholder' => __('Select allowed colors (optional)', 'acf-editor-palette'),
+            'placeholder' => __('All colors', 'acf-editor-palette'),
             'choices' => $colors,
         ]);
 
@@ -233,7 +232,7 @@ class Field extends \acf_field
             'default_value' => null,
             'allow_null' => true,
             'multiple' => true,
-            'placeholder' => __('Select excluded colors (optional)', 'acf-editor-palette'),
+            'placeholder' => __('None', 'acf-editor-palette'),
             'choices' => $colors,
         ]);
 
@@ -242,7 +241,6 @@ class Field extends \acf_field
             'name' => 'return_format',
             'instructions' => __('The format of the returned data.', 'acf-editor-palette'),
             'type' => 'select',
-            'ui' => '1',
             'choices' => [
                 'name' => 'Name',
                 'slug' => 'Slug',
