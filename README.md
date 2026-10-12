@@ -70,10 +70,12 @@ When registering fields in PHP, pass the colors using the same shape as `theme.j
 
 ```php
 $field
-  ->addField('my_color_field', 'editor_palette')
+  ->addField('accent_color', 'editor_palette')
     ->setConfig('custom_colors', [
-        ['name' => 'Magenta', 'slug' => 'magenta', 'color' => '#ff00ff'],
-        ['name' => 'Brand Blue', 'color' => '#0066cc'],
+        ['name' => 'Coral', 'slug' => 'coral', 'color' => '#F26B5B'],
+        ['name' => 'Sunflower', 'slug' => 'sunflower', 'color' => '#F5B83D'],
+        ['name' => 'Teal', 'slug' => 'teal', 'color' => '#2BB5A0'],
+        ['name' => 'Indigo', 'color' => '#5B5FC7'], // slug generated as "indigo"
     ]);
 ```
 
