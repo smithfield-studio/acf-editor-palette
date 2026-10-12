@@ -78,17 +78,19 @@ trait Palette
         $palette = [];
 
         foreach ($colors as $value) {
-            if (! is_array($value) || empty($value['name']) || empty($value['color'])) {
+            if (! is_array($value)) {
                 continue;
             }
 
-            $name = sanitize_text_field($value['name']);
+            $name = sanitize_text_field($value['name'] ?? '');
+            $color = sanitize_text_field($value['color'] ?? '');
+            $slug = sanitize_title(! empty($value['slug']) ? $value['slug'] : $name);
 
-            $palette[] = [
-                'name' => $name,
-                'slug' => sanitize_title(! empty($value['slug']) ? $value['slug'] : $name),
-                'color' => sanitize_text_field($value['color']),
-            ];
+            if (empty($name) || empty($color) || empty($slug)) {
+                continue;
+            }
+
+            $palette[] = compact('name', 'slug', 'color');
         }
 
         return $palette;

@@ -66,6 +66,16 @@ it('sanitizes the custom color name and color', function () {
         ->toBe([['name' => 'Magenta', 'slug' => 'magenta', 'color' => '#ff00ff']]);
 });
 
+it('skips custom colors that are empty once sanitized', function () {
+    expect(field()->customPalette([
+        ['name' => '<b></b>', 'color' => '#ff00ff'],
+        ['name' => 'Magenta', 'color' => '<i></i>'],
+        ['name' => '!!!', 'color' => '#ff00ff'],
+    ]))->toBe([]);
+
+    expect(field()->palette(null, [['name' => '<b></b>', 'color' => '#ff00ff']]))->toHaveKeys(['green', 'blue']);
+});
+
 it('skips invalid custom colors', function () {
     $palette = field()->customPalette([
         ['name' => 'Magenta', 'color' => '#ff00ff'],
