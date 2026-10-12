@@ -116,7 +116,7 @@ class Field extends \acf_field
                     title="%s"
                     class="components-button components-circular-option-picker__option acf-js-tooltip"
                     style="background-color: %s; color: %s;"
-                    data-color="%s",
+                    data-color="%s"
                 ></label>',
                 esc_attr($field['id']),
                 esc_attr($color['slug']),
