@@ -81,7 +81,7 @@ it('renders the custom colors', function () {
 
 it('escapes the custom colors when rendering', function () {
     $field = array_merge($this->field, ['custom_colors' => [
-        ['name' => 'Bad" onmouseover="alert(1)', 'slug' => 'bad', 'color' => '#000" onclick="alert(1)'],
+        ['name' => 'Bad" onmouseover="alert(1)', 'slug' => 'bad" onclick="alert(1)', 'color' => '#000000'],
     ]]);
 
     ob_start();

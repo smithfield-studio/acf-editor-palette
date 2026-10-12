@@ -76,6 +76,20 @@ it('skips custom colors that are empty once sanitized', function () {
     expect(field()->palette(null, [['name' => '<b></b>', 'color' => '#ff00ff']]))->toHaveKeys(['green', 'blue']);
 });
 
+it('only accepts hex, rgb and hsl custom colors', function () {
+    $palette = field()->customPalette([
+        ['name' => 'Hex', 'color' => '#ff00ff'],
+        ['name' => 'Short Hex', 'color' => '#f0f'],
+        ['name' => 'Alpha Hex', 'color' => '#BCEFE04D'],
+        ['name' => 'Rgba', 'color' => 'rgba(242, 107, 91, 0.5)'],
+        ['name' => 'Hsl', 'color' => 'hsl(6 85% 65%)'],
+        ['name' => 'Injected', 'color' => 'red; background-image: url(//example.com/x)'],
+        ['name' => 'Named', 'color' => 'red'],
+    ]);
+
+    expect(array_column($palette, 'name'))->toBe(['Hex', 'Short Hex', 'Alpha Hex', 'Rgba', 'Hsl']);
+});
+
 it('skips invalid custom colors', function () {
     $palette = field()->customPalette([
         ['name' => 'Magenta', 'color' => '#ff00ff'],

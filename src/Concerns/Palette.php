@@ -86,7 +86,7 @@ trait Palette
             $color = sanitize_text_field($value['color'] ?? '');
             $slug = sanitize_title(! empty($value['slug']) ? $value['slug'] : $name);
 
-            if (empty($name) || empty($color) || empty($slug)) {
+            if (empty($name) || empty($slug) || ! $this->isColor($color)) {
                 continue;
             }
 
@@ -94,5 +94,19 @@ trait Palette
         }
 
         return $palette;
+    }
+
+    /**
+     * Determine if the value is a hex, rgb() or hsl() color.
+     *
+     * @param  string  $color
+     * @return bool
+     */
+    protected function isColor($color)
+    {
+        return (bool) preg_match(
+            '/^(#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})|(rgb|hsl)a?\([\d\s.,%\/]+\))$/i',
+            $color
+        );
     }
 }

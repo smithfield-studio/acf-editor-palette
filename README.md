@@ -77,6 +77,8 @@ $field
     ]);
 ```
 
+Colors must be hex (`#f26b5b`, including 3, 4 and 8 digit forms), `rgb()`/`rgba()` or `hsl()`/`hsla()`. Other values are dropped.
+
 The `text` and `background` classes are still returned for custom colors, but your theme will need to provide the matching CSS.
 
 ## Bug Reports
