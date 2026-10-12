@@ -52,12 +52,13 @@ it('generates a slug from the custom color name', function () {
         ->background->toBe('has-background has-brand-blue-background-color');
 });
 
-it('accepts custom colors as color : name lines', function () {
-    $palette = field()->palette(null, "#ff00ff : Magenta\n#0066cc : Brand Blue");
+it('falls back to the theme palette when the custom colors are invalid', function () {
+    expect(field()->palette(null, [['name' => 'No Color']]))->toHaveKeys(['green', 'blue']);
+});
 
-    expect($palette)
-        ->toHaveKeys(['magenta', 'brand-blue'])
-        ->and($palette['magenta']['color'])->toBe('#ff00ff');
+it('sanitizes the custom color slug', function () {
+    expect(field()->customPalette([['name' => 'Magenta', 'slug' => 'Hot Pink', 'color' => '#ff00ff']]))
+        ->toBe([['name' => 'Magenta', 'slug' => 'hot-pink', 'color' => '#ff00ff']]);
 });
 
 it('skips invalid custom colors', function () {
@@ -69,18 +70,4 @@ it('skips invalid custom colors', function () {
     ]);
 
     expect($palette)->toHaveCount(1);
-});
-
-it('decodes custom colors', function () {
-    expect(field()->decodeColors("#ff00ff : Magenta\n\n  rgb(0 0 0) :  Black \ninvalid"))->toBe([
-        ['name' => 'Magenta', 'color' => '#ff00ff'],
-        ['name' => 'Black', 'color' => 'rgb(0 0 0)'],
-    ]);
-});
-
-it('encodes custom colors', function () {
-    expect(field()->encodeColors([
-        ['name' => 'Magenta', 'slug' => 'magenta', 'color' => '#ff00ff'],
-        ['name' => 'Brand Blue', 'color' => '#0066cc'],
-    ]))->toBe("#ff00ff : Magenta\n#0066cc : Brand Blue");
 });

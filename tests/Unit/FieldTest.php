@@ -42,12 +42,16 @@ it('saves the custom color', function () {
         ->color->toBe('#00ffff');
 });
 
-it('decodes the custom colors setting when saving the field', function () {
-    $field = field()->update_field(['custom_colors' => "#ff00ff : Magenta\n#0066cc : Brand Blue"]);
+it('normalizes the custom colors repeater when saving the field', function () {
+    $field = field()->update_field(['custom_colors' => [
+        'row-0' => ['name' => 'Magenta', 'slug' => '', 'color' => '#ff00ff'],
+        'row-1' => ['name' => 'Brand Blue', 'slug' => 'brand', 'color' => '#0066cc'],
+        'acfcloneindex' => ['name' => '', 'slug' => '', 'color' => ''],
+    ]]);
 
     expect($field['custom_colors'])->toBe([
-        ['name' => 'Magenta', 'color' => '#ff00ff', 'slug' => 'magenta'],
-        ['name' => 'Brand Blue', 'color' => '#0066cc', 'slug' => 'brand-blue'],
+        ['name' => 'Magenta', 'slug' => 'magenta', 'color' => '#ff00ff'],
+        ['name' => 'Brand Blue', 'slug' => 'brand', 'color' => '#0066cc'],
     ]);
 });
 
@@ -69,11 +73,15 @@ it('filters the custom colors', function () {
     expect($html)->toContain('value="magenta"')->not->toContain('value="cyan"');
 });
 
-it('renders the custom colors setting', function () {
+it('renders the custom colors repeater setting', function () {
     field()->render_field_settings($this->field);
 
+    expect($GLOBALS['field_settings']['custom_colors'])
+        ->type->toBe('repeater')
+        ->and(array_column($GLOBALS['field_settings']['custom_colors']['sub_fields'], 'key', '_name'))
+        ->toBe(['name' => 'name', 'slug' => 'slug', 'color' => 'color']);
+
     expect($GLOBALS['field_settings'])
-        ->custom_colors->value->toBe("#ff00ff : Magenta\n#00ffff : Cyan")
         ->default_value->choices->toBe(['magenta' => 'Magenta', 'cyan' => 'Cyan']);
 });
 

@@ -64,12 +64,7 @@ $field
 
 ### Custom Colors
 
-The theme palette can be replaced with custom colors on a per-field basis. In the field settings, enter each color on a new line as `color : Name`:
-
-```
-#ff00ff : Magenta
-#0066cc : Brand Blue
-```
+The theme palette can be replaced with custom colors on a per-field basis using the Custom Colors setting.
 
 When registering fields in PHP, pass the colors using the same shape as `theme.json`. The slug is optional and generated from the name when omitted:
 

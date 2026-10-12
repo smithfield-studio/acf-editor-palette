@@ -75,6 +75,11 @@ class acf_field
     }
 }
 
+function acf_get_valid_field($field)
+{
+    return array_merge(['_name' => $field['name'], 'wrapper' => ['width' => '']], $field);
+}
+
 function acf_render_field_setting($field, $setting)
 {
     $GLOBALS['field_settings'][$setting['name']] = $setting;

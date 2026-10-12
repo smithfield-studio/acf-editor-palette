@@ -154,10 +154,32 @@ class Field extends \acf_field
         acf_render_field_setting($field, [
             'label' => __('Custom Colors', 'acf-editor-palette'),
             'name' => 'custom_colors',
-            'instructions' => __('Replace the theme palette with custom colors. Enter each color on a new line.', 'acf-editor-palette').
-                '<br><br><span class="acf-field-setting-example">#ff0000 : Red</span>',
-            'type' => 'textarea',
-            'value' => $this->encodeColors($field['custom_colors'] ?? []),
+            'instructions' => __('Replace the theme palette with custom colors.', 'acf-editor-palette'),
+            'type' => 'repeater',
+            'layout' => 'table',
+            'button_label' => __('Add Color', 'acf-editor-palette'),
+            // Keys match names so rows load and save in the same shape as theme.json colors.
+            'sub_fields' => array_map('acf_get_valid_field', [
+                [
+                    'label' => __('Name', 'acf-editor-palette'),
+                    'name' => 'name',
+                    'key' => 'name',
+                    'type' => 'text',
+                ],
+                [
+                    'label' => __('Slug', 'acf-editor-palette'),
+                    'name' => 'slug',
+                    'key' => 'slug',
+                    'type' => 'text',
+                    'placeholder' => __('Generated from the name', 'acf-editor-palette'),
+                ],
+                [
+                    'label' => __('Color', 'acf-editor-palette'),
+                    'name' => 'color',
+                    'key' => 'color',
+                    'type' => 'color_picker',
+                ],
+            ]),
         ]);
 
         if (empty($palette = $this->palette(null, $field['custom_colors'] ?? []))) {

@@ -8,16 +8,14 @@ trait Palette
      * Retrieve the editor color palette.
      *
      * @param  string  $color
-     * @param  string|array  $custom
+     * @param  array  $custom
      * @return string[]
      */
     public function palette($color = null, $custom = [])
     {
         $colors = [];
 
-        $palette = ! empty($custom)
-            ? $this->customPalette($custom)
-            : $this->themePalette();
+        $palette = $this->customPalette($custom) ?: $this->themePalette();
 
         if (empty($palette)) {
             return $color ?: $colors;
@@ -68,15 +66,11 @@ trait Palette
     /**
      * Retrieve the custom color palette.
      *
-     * @param  string|array  $colors
+     * @param  array  $colors
      * @return array
      */
     public function customPalette($colors = [])
     {
-        if (is_string($colors)) {
-            $colors = $this->decodeColors($colors);
-        }
-
         if (! is_array($colors)) {
             return [];
         }
@@ -88,47 +82,13 @@ trait Palette
                 continue;
             }
 
-            $palette[] = array_merge($value, [
-                'slug' => ! empty($value['slug']) ? $value['slug'] : sanitize_title($value['name']),
-            ]);
+            $palette[] = [
+                'name' => $value['name'],
+                'slug' => sanitize_title(! empty($value['slug']) ? $value['slug'] : $value['name']),
+                'color' => $value['color'],
+            ];
         }
 
         return $palette;
-    }
-
-    /**
-     * Decode custom colors from `color : Name` lines.
-     *
-     * @param  string  $colors
-     * @return array
-     */
-    public function decodeColors($colors = '')
-    {
-        $palette = [];
-
-        foreach (explode("\n", $colors) as $line) {
-            if (strpos($line, ':') === false) {
-                continue;
-            }
-
-            [$color, $name] = array_map('trim', explode(':', $line, 2));
-
-            $palette[] = compact('name', 'color');
-        }
-
-        return $palette;
-    }
-
-    /**
-     * Encode custom colors as `color : Name` lines.
-     *
-     * @param  string|array  $colors
-     * @return string
-     */
-    public function encodeColors($colors = [])
-    {
-        return implode("\n", array_map(function ($color) {
-            return sprintf('%s : %s', $color['color'], $color['name']);
-        }, $this->customPalette($colors)));
     }
 }
