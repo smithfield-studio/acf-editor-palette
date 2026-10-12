@@ -78,53 +78,49 @@ class Field extends \acf_field
 
         $active = is_array($field['value']) ? $field['value']['slug'] : $field['value'];
 
-        echo sprintf(
-            '<input type="hidden" id="%s" name="%s" value="">',
-            esc_attr($field['id']),
-            esc_attr($field['name'])
-        );
+        $id = esc_attr($field['id']);
+        $name = esc_attr($field['name']);
+
+        echo sprintf('<input type="hidden" id="%s" name="%s" value="">', $id, $name);
 
         echo sprintf('<div class="%s components-circular-option-picker">', esc_attr($field['class']));
 
         echo '<ul class="components-circular-option-picker__swatches">';
 
         echo sprintf(
-            '<input class="empty-value" type="radio" id="%s-%s" name="%s" value="%s" %s>',
-            esc_attr($field['id']),
-            'empty',
-            esc_attr($field['name']),
-            null,
+            '<input class="empty-value" type="radio" id="%s-empty" name="%s" value="" %s>',
+            $id,
+            $name,
             checked(null, $active, false)
         );
 
         foreach ($palette as $color) {
+            $checked = checked($color['slug'], $active, false);
+            $color = array_map('esc_attr', $color);
+
             echo '<li class="components-circular-option-picker__option-wrapper">';
 
             echo sprintf(
-                '<input type="radio" id="%s-%s" name="%s" value="%s" %s>',
-                esc_attr($field['id']),
-                esc_attr($color['slug']),
-                esc_attr($field['name']),
-                esc_attr($color['slug']),
-                checked($color['slug'], $active, false)
+                '<input type="radio" id="%1$s-%2$s" name="%3$s" value="%2$s" %4$s>',
+                $id,
+                $color['slug'],
+                $name,
+                $checked
             );
 
             echo sprintf(
                 '<label
-                    for="%s-%s"
-                    aria-label="Color: %s"
-                    title="%s"
+                    for="%1$s-%2$s"
+                    aria-label="Color: %3$s"
+                    title="%3$s"
                     class="components-button components-circular-option-picker__option acf-js-tooltip"
-                    style="background-color: %s; color: %s;"
-                    data-color="%s"
+                    style="background-color: %4$s; color: %4$s;"
+                    data-color="%4$s"
                 ></label>',
-                esc_attr($field['id']),
-                esc_attr($color['slug']),
-                esc_attr($color['name']),
-                esc_attr($color['name']),
-                esc_attr($color['color']),
-                esc_attr($color['color']),
-                esc_attr($color['color'])
+                $id,
+                $color['slug'],
+                $color['name'],
+                $color['color']
             );
 
             echo '</li>';
