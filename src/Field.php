@@ -16,6 +16,7 @@ class Field extends \acf_field
         'default_value' => null,
         'allowed_colors' => [],
         'exclude_colors' => [],
+        'custom_colors' => [],
         'return_format' => 'slug',
     ];
 
@@ -51,7 +52,7 @@ class Field extends \acf_field
      */
     public function render_field($field)
     {
-        if (empty($palette = $this->palette())) {
+        if (empty($palette = $this->palette(null, $field['custom_colors'] ?? []))) {
             echo __('The theme editor palette is empty.', 'acf-editor-palette');
 
             return;
@@ -150,7 +151,16 @@ class Field extends \acf_field
     {
         $colors = [];
 
-        if (empty($palette = $this->palette())) {
+        acf_render_field_setting($field, [
+            'label' => __('Custom Colors', 'acf-editor-palette'),
+            'name' => 'custom_colors',
+            'instructions' => __('Replace the theme palette with custom colors. Enter each color on a new line.', 'acf-editor-palette').
+                '<br><br><span class="acf-field-setting-example">#ff0000 : Red</span>',
+            'type' => 'textarea',
+            'value' => $this->encodeColors($field['custom_colors'] ?? []),
+        ]);
+
+        if (empty($palette = $this->palette(null, $field['custom_colors'] ?? []))) {
             return acf_render_field_setting($field, [
                 'label' => __('No color palette found.', 'acf-editor-palette'),
                 'name' => 'color_palette_empty',
@@ -232,7 +242,7 @@ class Field extends \acf_field
         $format = $field['return_format'] ?? $this->defaults['return_format'];
 
         if (! empty($value) && is_string($value)) {
-            $value = $this->palette($value);
+            $value = $this->palette($value, $field['custom_colors'] ?? []);
         }
 
         return $format === 'array' ? $value : ($value[$format] ?? $value);
@@ -253,7 +263,7 @@ class Field extends \acf_field
         if (
             $valid &&
             ! empty($value) &&
-            empty($this->palette($value))
+            empty($this->palette($value, $field['custom_colors'] ?? []))
         ) {
             return __('The current color does not exist in the editor palette.', 'acf-editor-palette');
         }
@@ -277,7 +287,20 @@ class Field extends \acf_field
 
         $value = is_string($value) ? $value : $value['slug'];
 
-        return $this->palette($value);
+        return $this->palette($value, $field['custom_colors'] ?? []);
+    }
+
+    /**
+     * The field settings before saving to the database.
+     *
+     * @param  array  $field
+     * @return array
+     */
+    public function update_field($field)
+    {
+        $field['custom_colors'] = $this->customPalette($field['custom_colors'] ?? []);
+
+        return $field;
     }
 
     /**

@@ -14,6 +14,7 @@ A Gutenberg-like editor palette color picker field for Advanced Custom Fields.
 - Return format includes the default [palette keys](https://developer.wordpress.org/block-editor/developers/themes/theme-support/) as well as background and text color classes for convenience.
 - Default value can optionally be set using the color's slug.
 - Colors can optionally be allowed/excluded from the palette.
+- The theme palette can optionally be replaced with custom colors per field.
 
 ## Requirements
 
@@ -60,6 +61,28 @@ $field
     ->setConfig('exclude_colors', ['green-50', 'green-100'])
     ->setConfig('return_format', 'slug');
 ```
+
+### Custom Colors
+
+The theme palette can be replaced with custom colors on a per-field basis. In the field settings, enter each color on a new line as `color : Name`:
+
+```
+#ff00ff : Magenta
+#0066cc : Brand Blue
+```
+
+When registering fields in PHP, pass the colors using the same shape as `theme.json`. The slug is optional and generated from the name when omitted:
+
+```php
+$field
+  ->addField('my_color_field', 'editor_palette')
+    ->setConfig('custom_colors', [
+        ['name' => 'Magenta', 'slug' => 'magenta', 'color' => '#ff00ff'],
+        ['name' => 'Brand Blue', 'color' => '#0066cc'],
+    ]);
+```
+
+The `text` and `background` classes are still returned for custom colors, but your theme will need to provide the matching CSS.
 
 ## Bug Reports
 
