@@ -165,12 +165,14 @@ class Field extends \acf_field
                     'name' => 'name',
                     'key' => 'name',
                     'type' => 'text',
+                    'wrapper' => ['width' => 40],
                 ],
                 [
                     'label' => __('Slug', 'acf-editor-palette'),
                     'name' => 'slug',
                     'key' => 'slug',
                     'type' => 'text',
+                    'wrapper' => ['width' => 30],
                     'placeholder' => __('Generated from the name', 'acf-editor-palette'),
                 ],
                 [
@@ -178,6 +180,7 @@ class Field extends \acf_field
                     'name' => 'color',
                     'key' => 'color',
                     'type' => 'color_picker',
+                    'wrapper' => ['width' => 30],
                 ],
             ]),
         ]);
