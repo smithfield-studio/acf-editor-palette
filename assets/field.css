@@ -17,7 +17,7 @@
         @apply m-0 p-0 min-w-0 relative;
 
         input {
-          @apply absolute top-0 left-0 m-0 h-px w-px opacity-0 pointer-events-none;
+          @apply sr-only;
         }
 
         input:focus-visible + label {
